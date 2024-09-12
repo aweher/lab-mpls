@@ -1,0 +1,258 @@
+---
+name: mpls
+prefix: __lab-name
+
+mgmt:
+  network: lab_mng
+  ipv4-subnet: 198.18.100.0/24
+  ipv6-subnet: 2001:db8::/64
+  mtu: 9000
+
+topology:
+  kinds:
+    linux:
+      type: linux
+      image: quay.io/frrouting/frr:10.0.1
+      image-pull-policy: IfNotPresent
+  
+  nodes:
+  #---------------------------------------------------------------------------#
+  # PEs
+  #---------------------------------------------------------------------------#
+    p1:
+      kind: linux
+      group: p-routers
+      binds:
+        - ./.working-configs/p1:/etc/frr
+    p2:
+      kind: linux
+      group: p-routers
+      binds:
+        - ./.working-configs/p2:/etc/frr
+    pe-cdn1:
+      kind: linux
+      group: pe-routers
+      binds:
+        - ./.working-configs/pe-cdn1:/etc/frr
+    pe-cdn2:
+      kind: linux
+      group: pe-routers
+      binds:
+        - ./.working-configs/pe-cdn2:/etc/frr
+    pe-tr1:
+      kind: linux
+      group: pe-routers
+      binds:
+        - ./.working-configs/pe-tr1:/etc/frr
+    pe-tr2:
+      kind: linux
+      group: pe-routers
+      binds:
+        - ./.working-configs/pe-tr2:/etc/frr
+    pe-cust1:
+      kind: linux
+      group: pe-routers
+      binds:
+        - ./.working-configs/pe-cust1:/etc/frr
+    pe-cust2:
+      kind: linux
+      group: pe-routers
+      binds:
+        - ./.working-configs/pe-cust2:/etc/frr
+    #-------------------------------------------------------------------------#
+    # CEs - End Customers
+    #-------------------------------------------------------------------------#
+    ce1:
+      kind: linux
+      group: ce-routers
+      binds:
+        - ./.working-configs/ce1:/etc/frr
+    ce2:
+      kind: linux
+      group: ce-routers
+      binds:
+        - ./.working-configs/ce2:/etc/frr
+    ce3:
+      kind: linux
+      group: ce-routers
+      binds:
+        - ./.working-configs/ce3:/etc/frr
+    ce4:
+      kind: linux
+      group: ce-routers
+      binds:
+        - ./.working-configs/ce4:/etc/frr
+    ce5:
+      kind: linux
+      group: ce-routers
+      binds:
+        - ./.working-configs/ce5:/etc/frr
+    ce6:
+      kind: linux
+      group: ce-routers
+      binds:
+        - ./.working-configs/ce6:/etc/frr
+    #-------------------------------------------------------------------------#
+    # CEs - Transits
+    #-------------------------------------------------------------------------#
+    ce-tr1:
+      kind: linux
+      group: ce-transit
+      binds:
+        - ./.working-configs/ce-tr1:/etc/frr
+    ce-tr2:
+      kind: linux
+      group: ce-transit
+      binds:
+        - ./.working-configs/ce-tr2:/etc/frr
+    ce-tr3:
+      kind: linux
+      group: ce-transit
+      binds:
+        - ./.working-configs/ce-tr3:/etc/frr
+    ce-tr4:
+      kind: linux
+      group: ce-transit
+      binds:
+        - ./.working-configs/ce-tr4:/etc/frr
+    #-------------------------------------------------------------------------#
+    # CEs - CDNs
+    #-------------------------------------------------------------------------#
+    ce-cdn1:
+      kind: linux
+      group: ce-cdn
+      binds:
+        - ./.working-configs/ce-cdn1:/etc/frr
+    ce-cdn2:
+      kind: linux
+      group: ce-cdn
+      binds:
+        - ./.working-configs/ce-cdn2:/etc/frr
+    ce-cdn3:
+      kind: linux
+      group: ce-cdn
+      binds:
+        - ./.working-configs/ce-cdn3:/etc/frr
+    ce-cdn4:
+      kind: linux
+      group: ce-cdn
+      binds:
+        - ./.working-configs/ce-cdn4:/etc/frr
+  
+  links:
+  #---------------------------------------------------------------------------#
+  # Core
+  #---------------------------------------------------------------------------#
+  # P1 a P2
+    - endpoints:
+      - p1:eth1
+      - p2:eth1
+    - endpoints:
+      - p1:eth2
+      - p2:eth2
+  # P1 a PE-TR1
+    - endpoints:
+      - p1:eth3
+      - pe-tr1:eth1
+  # P2 a PE-TR2
+    - endpoints:
+      - p2:eth3
+      - pe-tr2:eth1
+  # P1 a PE-CDN1
+    - endpoints:
+      - p1:eth4
+      - pe-cdn1:eth1
+  # P1 a PE-CDN2
+    - endpoints:
+      - p1:eth5
+      - pe-cdn2:eth2
+  # P2 a PE-CDN1
+    - endpoints:
+      - p2:eth5
+      - pe-cdn1:eth2
+  # P2 a PE-CDN2
+    - endpoints:
+      - p2:eth4
+      - pe-cdn2:eth1
+  # P1 a PE-CUST1
+    - endpoints:
+      - p1:eth6
+      - pe-cust1:eth1
+  # P2 a PE-CUST2
+    - endpoints:
+      - p2:eth6
+      - pe-cust2:eth1
+  # PE-CDN1 a PE-TR1
+    - endpoints:
+      - pe-cdn1:eth3
+      - pe-tr1:eth2
+  # PE-CDN2 a PE-TR2
+    - endpoints:
+      - pe-cdn2:eth3
+      - pe-tr2:eth2
+  #---------------------------------------------------------------------------#
+  # Transits
+  #---------------------------------------------------------------------------#
+  # PE-TR1 a CE-TR1
+    - endpoints:
+      - pe-tr1:eth3
+      - ce-tr1:eth1
+  # PE-TR1 a CE-TR2
+    - endpoints:
+      - pe-tr1:eth4
+      - ce-tr2:eth1
+  
+  # PE-TR2 a CE-TR3
+    - endpoints:
+      - pe-tr2:eth3
+      - ce-tr3:eth1
+  # PE-TR2 a CE-TR4
+    - endpoints:
+      - pe-tr2:eth4
+      - ce-tr4:eth1
+  #---------------------------------------------------------------------------#
+  # CDNs
+  #---------------------------------------------------------------------------#
+  # PE-CDN1 a CE-CDN1
+    - endpoints:
+      - pe-cdn1:eth4
+      - ce-cdn1:eth1
+  # PE-CDN1 a CE-CDN2
+    - endpoints:
+      - pe-cdn1:eth5
+      - ce-cdn2:eth1
+  # PE-CDN2 a CE-CDN3
+    - endpoints:
+      - pe-cdn2:eth4
+      - ce-cdn3:eth1
+  # PE-CDN2 a CE-CDN4
+    - endpoints:
+      - pe-cdn2:eth5
+      - ce-cdn4:eth1
+  #---------------------------------------------------------------------------#
+  # Customers
+  #---------------------------------------------------------------------------#
+  # PE-CUST1 a CE1
+    - endpoints:
+      - pe-cust1:eth2
+      - ce1:eth1
+  # PE-CUST1 a CE2
+    - endpoints:
+      - pe-cust1:eth3
+      - ce2:eth1
+  # PE-CUST1 a CE3
+    - endpoints:
+      - pe-cust1:eth4
+      - ce3:eth1
+  # PE-CUST2 a CE4
+    - endpoints:
+      - pe-cust2:eth2
+      - ce4:eth1
+  # PE-CUST2 a CE5
+    - endpoints:
+      - pe-cust2:eth3
+      - ce5:eth1
+  # PE-CUST2 a CE6
+    - endpoints:
+      - pe-cust2:eth4
+      - ce6:eth1
