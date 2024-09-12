@@ -21,42 +21,42 @@ topology:
   #---------------------------------------------------------------------------#
     p1:
       kind: linux
-      group: p-routers
+      group: spine
       binds:
         - ./.working-configs/p1:/etc/frr
     p2:
       kind: linux
-      group: p-routers
+      group: spine
       binds:
         - ./.working-configs/p2:/etc/frr
     pe-cdn1:
       kind: linux
-      group: pe-routers
+      group: leaf
       binds:
         - ./.working-configs/pe-cdn1:/etc/frr
     pe-cdn2:
       kind: linux
-      group: pe-routers
+      group: leaf
       binds:
         - ./.working-configs/pe-cdn2:/etc/frr
     pe-tr1:
       kind: linux
-      group: pe-routers
+      group: border-leaf
       binds:
         - ./.working-configs/pe-tr1:/etc/frr
     pe-tr2:
       kind: linux
-      group: pe-routers
+      group: border-leaf
       binds:
         - ./.working-configs/pe-tr2:/etc/frr
     pe-cust1:
       kind: linux
-      group: pe-routers
+      group: leaf
       binds:
         - ./.working-configs/pe-cust1:/etc/frr
     pe-cust2:
       kind: linux
-      group: pe-routers
+      group: leaf
       binds:
         - ./.working-configs/pe-cust2:/etc/frr
     #-------------------------------------------------------------------------#
@@ -64,32 +64,32 @@ topology:
     #-------------------------------------------------------------------------#
     ce1:
       kind: linux
-      group: ce-routers
+      group: server
       binds:
         - ./.working-configs/ce1:/etc/frr
     ce2:
       kind: linux
-      group: ce-routers
+      group: server
       binds:
         - ./.working-configs/ce2:/etc/frr
     ce3:
       kind: linux
-      group: ce-routers
+      group: server
       binds:
         - ./.working-configs/ce3:/etc/frr
     ce4:
       kind: linux
-      group: ce-routers
+      group: server
       binds:
         - ./.working-configs/ce4:/etc/frr
     ce5:
       kind: linux
-      group: ce-routers
+      group: server
       binds:
         - ./.working-configs/ce5:/etc/frr
     ce6:
       kind: linux
-      group: ce-routers
+      group: server
       binds:
         - ./.working-configs/ce6:/etc/frr
     #-------------------------------------------------------------------------#
@@ -97,22 +97,22 @@ topology:
     #-------------------------------------------------------------------------#
     ce-tr1:
       kind: linux
-      group: ce-transit
+      group: server
       binds:
         - ./.working-configs/ce-tr1:/etc/frr
     ce-tr2:
       kind: linux
-      group: ce-transit
+      group: server
       binds:
         - ./.working-configs/ce-tr2:/etc/frr
     ce-tr3:
       kind: linux
-      group: ce-transit
+      group: server
       binds:
         - ./.working-configs/ce-tr3:/etc/frr
     ce-tr4:
       kind: linux
-      group: ce-transit
+      group: server
       binds:
         - ./.working-configs/ce-tr4:/etc/frr
     #-------------------------------------------------------------------------#
@@ -120,22 +120,22 @@ topology:
     #-------------------------------------------------------------------------#
     ce-cdn1:
       kind: linux
-      group: ce-cdn
+      group: server
       binds:
         - ./.working-configs/ce-cdn1:/etc/frr
     ce-cdn2:
       kind: linux
-      group: ce-cdn
+      group: server
       binds:
         - ./.working-configs/ce-cdn2:/etc/frr
     ce-cdn3:
       kind: linux
-      group: ce-cdn
+      group: server
       binds:
         - ./.working-configs/ce-cdn3:/etc/frr
     ce-cdn4:
       kind: linux
-      group: ce-cdn
+      group: server
       binds:
         - ./.working-configs/ce-cdn4:/etc/frr
   
