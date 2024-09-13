@@ -15,8 +15,8 @@ lab_check_requirements(){
         exit 1
     fi
     if ! lsmod | grep -q mpls_router; then
-        echo "Kernel module mpls_router is not available. Please load it using 'sudo modprobe mpls_router'."
-        exit 1
+        echo "Kernel module mpls_router is not available. Loading it..."
+        sudo modprobe mpls_router
     fi
     if ! command -v yq &> /dev/null; then
         echo "yq is not installed."
