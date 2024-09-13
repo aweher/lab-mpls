@@ -2,6 +2,10 @@
 
 Welcome to the Lab MPLS Project! This project is designed to help you understand and experiment with Multi-Protocol Label Switching (MPLS) in a controlled lab environment.
 
+## Lab Diagram
+
+![](mpls.clab.svg)
+
 ## Installation
 
 To get started with the Lab MPLS Project, follow these steps:
