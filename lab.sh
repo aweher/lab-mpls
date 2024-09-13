@@ -7,6 +7,28 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+lab_check_requirements(){
+    if [[ "$(lsb_release -is)" == "Ubuntu" && "$(lsb_release -rs | cut -d. -f1)" -ge 18 ]]; then
+        echo "Checking requirements..."
+    else
+        echo "This script requires Ubuntu version 18 or greater."
+        exit 1
+    fi
+    if ! lsmod | grep -q mpls_router; then
+        echo "Kernel module mpls_router is not available. Please load it using 'sudo modprobe mpls_router'."
+        exit 1
+    fi
+    if ! command -v yq &> /dev/null; then
+        echo "yq is not installed."
+        read -p "Do you want to install it now? (y/n): " choice
+        case "$choice" in 
+            y|Y ) sudo apt-get update && sudo apt-get install -y yq;;
+            n|N ) echo "Please install yq to use this script.";;
+            * ) echo "Invalid choice. Please install yq to use this script.";;
+        esac
+    fi
+}
+
 lab_destroy(){
     echo "Destroying lab..."
     echo
@@ -202,6 +224,8 @@ LABFILE=mpls.clab.yml
 LABPFX=mpls
 IPCMD="sudo $(which ip)"
 CLABCMD="sudo $(which containerlab)"
+
+lab_check_requirements
 
 case "$1" in
     run)
