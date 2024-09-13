@@ -12,7 +12,7 @@ topology:
   kinds:
     linux:
       type: linux
-      image: registry.ayuda.la/public/frr:latest
+      image: quay.io/frrouting/frr:10.0.1
       image-pull-policy: IfNotPresent
   
   nodes:
