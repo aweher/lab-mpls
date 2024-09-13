@@ -1,6 +1,6 @@
-frr/
 clab-mpls/
 backups/
 .working-configs/
 .*.yml.bak
 .vscode/
+frr-*/build.sh
