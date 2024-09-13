@@ -2,7 +2,7 @@
 # Lab management script
 
 if [ -z "$1" ]; then
-    echo "Usage: $0 {start|stop|restart|configure|destroy|cleanup|connect|backup|uninstall}"
+    echo "Usage: $0 {run|start|stop|restart|configure|destroy|cleanup|connect|backup|uninstall}"
     echo
     exit 1
 fi
@@ -104,16 +104,15 @@ lab_cleanup(){
 }
 
 lab_have_fun(){
-    echo "Connecting to console edges..."
-    echo
-    TMPFILE=$(mktemp)
-    for NODE in $(cat ${LABFILE} | yq '.topology.nodes | to_entries | .[] | .key ' | sort -u | xargs); do
-        echo "title: ${NODE};; command: docker exec -ti lab-${LABPFX}-${NODE} bash">> ${TMPFILE}
-    done
-    konsole --tabs-from-file ${TMPFILE} &    
-}
-
-lab_console(){
+    if ! command -v konsole &> /dev/null; then
+        echo "Konsole is not installed."
+        read -p "Do you want to install it now? (y/n): " choice
+        case "$choice" in 
+            y|Y ) sudo apt-get install -y konsole;;
+            n|N ) echo "Please install konsole to use this feature.";;
+            * ) echo "Invalid choice. Please install konsole to use this feature.";;
+        esac
+    fi
     echo "Connecting to console..."
     echo
     TMPFILE=$(mktemp)
@@ -143,12 +142,9 @@ lab_uninstall(){
 
     read key
 
-    echo "Not yet implemented..."
-    exit 1
-    #docker kill $(docker ps | grep registry.lacnog.lat | grep frr | awk '{print $1}' | xargs)
-    #docker kill $(docker ps | grep registry.lacnog.lat | grep network-multitool | awk '{print $1}' | xargs)
-    #docker image prune
-    #docker container prune
+    docker container prune
+    docker network prune
+    docker image prune
 }
 
 lab_open_graph(){
@@ -190,12 +186,27 @@ lab_amoooooooooor(){
     lab_start
 }
 
+lab_run(){
+    clear
+    echo "Just a single command to rule them all..."
+    echo
+    if [ ! -d .working-configs ]; then
+        lab_configure
+    fi
+    lab_start
+    lab_have_fun
+    lab_open_graph
+}
+
 LABFILE=mpls.clab.yml
 LABPFX=mpls
 IPCMD="sudo $(which ip)"
 CLABCMD="sudo $(which containerlab)"
 
 case "$1" in
+    run)
+        lab_run
+        ;;
     start)
         lab_start
         ;;
@@ -215,9 +226,6 @@ case "$1" in
         lab_cleanup
         ;;
     connect)
-        lab_console
-        ;;
-    fun)
         lab_have_fun
         ;;
     backup)
