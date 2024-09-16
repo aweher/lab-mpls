@@ -68,6 +68,7 @@ lab_post_start(){
         docker exec -ti $CONTAINER ip link set dev Loopback0 up
         docker exec -ti $CONTAINER ip route del default;
         docker exec -ti $CONTAINER ip -6 route del default;
+        docker exec -ti $CONTAINER /etc/frr/enable-mpls.sh
         # Proceso las configuraciones especiales de cada nodo
         NODENAME=$(echo $CONTAINER | cut -d '-' -f3-)
         if [ -f .working-configs/${NODENAME}/runme.sh ]; then
