@@ -19,7 +19,6 @@ lab_check_requirements(){
         sudo modprobe mpls_router
         sudo modprobe mpls_gso
         sudo modprobe mpls_iptunnel
-        sudo sysctl -w net.mpls.platform_labels=1048575
     fi
     if ! command -v yq &> /dev/null; then
         echo "yq is not installed."
@@ -180,6 +179,16 @@ lab_open_graph(){
     $CLABCMD graph -t ${LABFILE} &
     xdg-open http://0.0.0.0:50080 &
 }
+
+if ! command -v wireshark &> /dev/null; then
+    echo "Wireshark is not installed."
+    read -p "Do you want to install it now? (y/n): " choice
+    case "$choice" in 
+        y|Y ) sudo apt-get update && sudo apt-get install -y wireshark;;
+        n|N ) echo "Please install Wireshark to use this feature.";;
+        * ) echo "Invalid choice. Please install Wireshark to use this feature.";;
+    esac
+fi
 
 lab_wireshark_capture(){
     echo "Capturing traffic on ANY interface..."
