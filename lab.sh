@@ -181,10 +181,59 @@ lab_open_graph(){
     xdg-open http://0.0.0.0:50080 &
 }
 
-lab_wireshark_any(){
-    echo "Capturing traffic from $2 on ANY interface..."
+lab_wireshark_capture(){
+    echo "Capturing traffic on ANY interface..."
     echo
-    sudo -E ip netns exec ${LABPFX}-$2 tcpdump -nni any -w - | wireshark -k -i -
+
+    if ! command -v dialog &> /dev/null; then
+        echo "dialog is not installed."
+        read -p "Do you want to install it now? (y/n): " choice
+        case "$choice" in 
+            y|Y ) sudo apt-get update && sudo apt-get install -y dialog;;
+            n|N ) echo "Please install dialog to use this feature.";;
+            * ) echo "Invalid choice. Please install dialog to use this feature.";;
+        esac
+    fi
+
+    # Get the list of nodes
+    NODES=$(cat ${LABFILE} | yq '.topology.nodes | to_entries | .[] | .key ' | sort | xargs)
+
+    # Create a temporary file to store the dialog output
+    TMPFILE=$(mktemp)
+
+    # Create the dialog menu for node selection
+    dialog --clear --title "Select Device" --menu "Choose a device to capture traffic from:" 15 50 8 $(for NODE in $NODES; do echo $NODE $NODE; done) 2> $TMPFILE
+
+    # Get the selected node
+    NODE=$(cat $TMPFILE)
+
+    # Clean up the temporary file
+    rm -f $TMPFILE
+
+    if [ -z "$NODE" ]; then
+        echo "No device selected. Exiting..."
+        exit 1
+    fi
+
+    # Get the list of interfaces for the selected node
+    INTERFACES=$(sudo -E ip netns exec ${LABPFX}-${NODE} ip link show | awk -F: '$0 !~ "vir|wl|^[^0-9]"{print $2}' | tr -d ' ' | xargs)
+
+    # Create the dialog menu for interface selection
+    TMPFILE=$(mktemp)
+    dialog --clear --title "Select Interface" --menu "Choose an interface to capture traffic from:" 15 50 8 any any $(for INTERFACE in $INTERFACES; do echo $INTERFACE $INTERFACE; done) 2> $TMPFILE
+
+    # Get the selected interface
+    INTERFACE=$(cat $TMPFILE | cut -d "@" -f1)
+
+    # Clean up the temporary file
+    rm -f $TMPFILE
+
+    if [ -z "$INTERFACE" ]; then
+        echo "No interface selected. Exiting..."
+        exit 1
+    fi
+
+    sudo -E ip netns exec ${LABPFX}-${NODE} tcpdump -nni "${INTERFACE}" -w - | wireshark -k -i -
 }
 
 lab_collect_running_config(){
@@ -267,7 +316,7 @@ case "$1" in
         lab_open_graph
         ;;
     capture)
-        lab_wireshark_any $@
+        lab_wireshark_capture
         ;;
     collect)
         lab_collect_running_config $@
