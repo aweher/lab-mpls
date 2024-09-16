@@ -12,7 +12,6 @@ topology:
   kinds:
     linux:
       type: linux
-      #image: quay.io/frrouting/frr:10.0.1
       image: registry.ayuda.la/public/frr-ubuntu:latest
       image-pull-policy: IfNotPresent
   

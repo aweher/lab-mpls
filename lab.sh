@@ -71,6 +71,7 @@ lab_post_start(){
         # Proceso las configuraciones especiales de cada nodo
         NODENAME=$(echo $CONTAINER | cut -d '-' -f3-)
         if [ -f .working-configs/${NODENAME}/runme.sh ]; then
+            echo "Running post configuration script for ${NODENAME}"
             docker exec -ti $CONTAINER bash /etc/frr/runme.sh
         fi
     done  
