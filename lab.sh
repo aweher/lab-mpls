@@ -153,8 +153,8 @@ lab_backupworking(){
     echo "Creating backup of working configs..."
     echo
     NOW=$(date +%Y%m%d%H%M%S)
-    sudo mkdir -p backups/
-    sudo tar cvfz backups/working-configs-${NOW}.tar.gz .working-configs
+    sudo mkdir -p backup/
+    sudo tar cvfz backup/working-configs-${NOW}.tar.gz .working-configs
 }
 
 lab_uninstall(){
@@ -237,16 +237,19 @@ lab_wireshark_capture(){
 }
 
 lab_collect_running_config(){
-    echo "Collecting running config from $2..."
-    if [ -f .working-configs/$2/frr.conf ]; then
-        if [ -d configs/$2 ]; then
-            cp .working-configs/$2/frr.conf configs/$2/frr.conf
-            echo "Running config collected: Check configs/$2/frr.conf"
-        else
-            echo "Error collecting running config. Directory configs/$2 does not exist"
-        fi
+    NODE=$2
+    if [ -z "$NODE" ]; then
+        echo "Usage: $0 collect <node>"
+        exit 1
+    fi
+    echo "Collecting running config from ${NODE}..."
+    NOW=$(date +%Y%m%d%H%M%S)
+    mkdir -p backup/configs/${NODE}/${NOW}
+    if [ -d configs/${NODE} ]; then
+        docker cp ${LABPFX}-${NODE}:/etc/frr/frr.conf backup/configs/${NODE}/${NOW}/frr.conf
+        echo "Running config collected: Check configs/${NODE}/frr.conf"
     else
-        echo "Error collecting running config. File .working-configs/$2/frr.conf does not exist"
+        echo "Error collecting running config. Directory configs/${NODE} does not exist"
     fi
 }
 

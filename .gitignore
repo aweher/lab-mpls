@@ -1,5 +1,5 @@
 clab-mpls/
-backups/
+backup/
 .working-configs/
 .*.yml.bak
 .vscode/
