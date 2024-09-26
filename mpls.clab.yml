@@ -12,7 +12,7 @@ topology:
   kinds:
     linux:
       type: linux
-      image: registry.ayuda.la/public/frr-ubuntu:latest
+      image: registry.ayuda.la/public/frr-debian:latest
       image-pull-policy: IfNotPresent
   
   nodes:
