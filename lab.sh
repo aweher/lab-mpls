@@ -1,5 +1,7 @@
 #!/bin/bash
 # Lab management script
+# Ariel S. Weher
+# ariel[at]weher[dot]net
 
 if [ -z "$1" ]; then
     echo "Usage: $0 {run|start|stop|restart|configure|destroy|cleanup|connect|backup|uninstall}"
@@ -67,6 +69,9 @@ lab_post_start(){
         docker exec -ti $CONTAINER ip link set dev Loopback0 up
         docker exec -ti $CONTAINER ip route del default;
         docker exec -ti $CONTAINER ip -6 route del default;
+        docker exec -ti $CONTAINER ip addr flush dev eth0
+        docker exec -ti $CONTAINER ip -6 addr flush dev eth0
+        docker exec -ti $CONTAINER ip link set eth0 down
         docker exec -ti $CONTAINER /etc/frr/enable-mpls.sh
         # Proceso las configuraciones especiales de cada nodo
         NODENAME=$(echo $CONTAINER | cut -d '-' -f3-)
