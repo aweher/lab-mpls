@@ -1,6 +1,8 @@
 #!/bin/bash
+
 # Lab management script
-# Ariel S. Weher
+
+# Developed by Ariel S. Weher
 # ariel[at]weher[dot]net
 
 if [ -z "$1" ]; then
@@ -61,7 +63,7 @@ lab_start(){
 lab_post_start(){
     echo "Running post configuration scripts..."
     echo
-    for CONTAINER in $(docker ps --format '{{.Names}}' | grep ${LABPFX} | sort |xargs); 
+    for CONTAINER in $(docker ps --format '{{.Names}}' | grep ${LABPFX} | sort | xargs); 
         do
         echo "Post-configuring ${CONTAINER}"
         # No remover estas lineas, son necesarias para que el lab funcione
@@ -72,6 +74,8 @@ lab_post_start(){
         docker exec -ti $CONTAINER ip addr flush dev eth0
         docker exec -ti $CONTAINER ip -6 addr flush dev eth0
         docker exec -ti $CONTAINER ip link set eth0 down
+        docker exec -ti $CONTAINER echo 2 > /proc/sys/net/ipv4/fib_multipath_hash_policy
+        docker exec -ti $CONTAINER echo 2 > /proc/sys/net/ipv6/fib_multipath_hash_policy
         docker exec -ti $CONTAINER /etc/frr/enable-mpls.sh
         # Proceso las configuraciones especiales de cada nodo
         NODENAME=$(echo $CONTAINER | cut -d '-' -f3-)
@@ -347,3 +351,5 @@ case "$1" in
         lab_amoooooooooor
         ;;
 esac
+
+# EOF
