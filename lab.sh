@@ -130,22 +130,24 @@ lab_cleanup(){
 }
 
 lab_have_fun(){
-    if ! command -v konsole &> /dev/null; then
-        echo "Konsole is not installed."
-        read -p "Do you want to install it now? (y/n): " choice
-        case "$choice" in 
-            y|Y ) sudo apt-get install -y konsole;;
-            n|N ) echo "Please install konsole to use this feature.";;
-            * ) echo "Invalid choice. Please install konsole to use this feature.";;
-        esac
+    if command -v xdg-open &> /dev/null; then
+        if ! command -v konsole &> /dev/null; then
+            echo "Konsole is not installed."
+            read -p "Do you want to install it now? (y/n): " choice
+            case "$choice" in 
+                y|Y ) sudo apt-get install -y konsole;;
+                n|N ) echo "Please install konsole to use this feature.";;
+                * ) echo "Invalid choice. Please install konsole to use this feature.";;
+            esac
+        fi
+        echo "Connecting to console..."
+        echo
+        TMPFILE=$(mktemp)
+        for NODE in $(cat ${LABFILE} | yq '.topology.nodes | to_entries | .[] | .key ' | sort | xargs); do
+            echo "title: ${NODE};; command: docker exec -ti ${LABPFX}-${NODE} bash">> ${TMPFILE}
+        done
+        konsole --tabs-from-file ${TMPFILE} &   
     fi
-    echo "Connecting to console..."
-    echo
-    TMPFILE=$(mktemp)
-    for NODE in $(cat ${LABFILE} | yq '.topology.nodes | to_entries | .[] | .key ' | sort | xargs); do
-        echo "title: ${NODE};; command: docker exec -ti ${LABPFX}-${NODE} bash">> ${TMPFILE}
-    done
-    konsole --tabs-from-file ${TMPFILE} &
 }
 
 lab_backupworking(){
