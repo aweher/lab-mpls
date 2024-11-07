@@ -74,8 +74,8 @@ lab_post_start(){
         docker exec -ti $CONTAINER ip addr flush dev eth0
         docker exec -ti $CONTAINER ip -6 addr flush dev eth0
         docker exec -ti $CONTAINER ip link set eth0 down
-        docker exec -ti $CONTAINER echo 2 > /proc/sys/net/ipv4/fib_multipath_hash_policy
-        docker exec -ti $CONTAINER echo 2 > /proc/sys/net/ipv6/fib_multipath_hash_policy
+        docker exec -ti $CONTAINER "echo 2 > /proc/sys/net/ipv4/fib_multipath_hash_policy"
+        docker exec -ti $CONTAINER "echo 2 > /proc/sys/net/ipv6/fib_multipath_hash_policy"
         docker exec -ti $CONTAINER /etc/frr/enable-mpls.sh
         # Proceso las configuraciones especiales de cada nodo
         NODENAME=$(echo $CONTAINER | cut -d '-' -f3-)
