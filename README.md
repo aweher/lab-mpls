@@ -28,7 +28,19 @@ To get started with the Lab MPLS Project, follow these steps:
     curl -sL https://containerlab.dev/setup | sudo -E bash -s "all"
     ```
 
-4. Have fun!
+4. Build Docker Containers
+
+    ```bash
+    cd frr-debian
+    ./build.sh
+    cd ..
+
+    cd frr-ubuntu
+    ./build.sh
+    cd ..
+    ```
+
+5. Have fun!
 
     ```bash
     ./lab.sh run
@@ -41,3 +53,5 @@ We welcome contributions to the Lab MPLS Project! If you have any ideas, suggest
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+Developed by @ArielWeher
