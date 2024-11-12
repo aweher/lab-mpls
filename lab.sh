@@ -33,6 +33,28 @@ lab_check_requirements(){
             * ) echo "Invalid choice. Please install yq to use this script.";;
         esac
     fi
+
+    if ! command -v containerlab &> /dev/null; then
+        echo "containerlab is not installed."
+        read -p "Do you want to install it now? (y/n): " choice
+        case "$choice" in 
+            y|Y ) curl -ksL https://containerlab.dev/setup | sudo -E bash -s "all";;
+            n|N ) echo "Please install containerlab to use this script.";;
+            * ) echo "Invalid choice. Please install containerlab to use this script.";;
+        esac
+    fi
+}
+
+check_if_docker_images_exists(){
+    DIMAGES=$(grep -E "image: " "${LABFILE}" | awk '{print $2}' | sort | uniq)
+    for DIMAGE in $DIMAGES; do
+        if ! docker image inspect $DIMAGE &> /dev/null; then
+            echo "Image $DIMAGE not found. Building it.."
+            echo "Please wait..."
+            # Build the images from local Dockerfiles
+            make
+        fi
+    done
 }
 
 lab_destroy(){
@@ -103,6 +125,7 @@ lab_restart(){
 }
 
 lab_configure(){
+    echo
     echo "Configuring lab..."
     echo
     
@@ -285,6 +308,19 @@ lab_amoooooooooor(){
     lab_start
 }
 
+lab_status(){
+    if [ -d .working-configs ]; then
+        echo "Lab is configured"
+        if $CLABCMD inspect -t ${LABFILE} &> /dev/null; then
+            $CLABCMD inspect -t ${LABFILE}
+        else
+            echo "Lab is not running"
+        fi
+    else
+        echo "Lab is not configured yet"
+    fi
+}
+
 lab_run(){
     clear
     echo "Just a single command to rule them all..."
@@ -303,6 +339,7 @@ IPCMD="sudo $(which ip)"
 CLABCMD="sudo $(which containerlab)"
 
 lab_check_requirements
+check_if_docker_images_exists
 
 case "$1" in
     run)
@@ -349,6 +386,9 @@ case "$1" in
         ;;
     amor)
         lab_amoooooooooor
+        ;;
+    status)
+        lab_status
         ;;
 esac
 
