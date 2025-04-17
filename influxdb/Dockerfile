@@ -5,7 +5,7 @@ LABEL maintainer="ariel@weher.net"
 RUN apt-get update && apt-get install -y \
     apt-transport-https ca-certificates curl wget \
     libc-ares2 libjson-c5 vim procps gnupg2 lsb-release apt-utils \
-    tini mtr tshark tcpdump termshark \
+    tini mtr tshark tcpdump termshark python3-pip \
     iputils-ping traceroute iputils-tracepath \
     iputils-arping snmp snmpd software-properties-common && \
     rm -rf /var/lib/apt/lists/*
