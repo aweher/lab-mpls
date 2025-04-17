@@ -31,10 +31,19 @@ To get started with the Lab MPLS Project, follow these steps:
 4. Build Docker Containers
 
     ```bash
+    # Preferred way
+    cd frr-ubuntu-ng
+    ./build.sh
+    cd ..
+    ```
+
+    ```bash
     cd frr-debian
     ./build.sh
     cd ..
+    ```
 
+    ```bash
     cd frr-ubuntu
     ./build.sh
     cd ..

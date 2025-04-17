@@ -13,7 +13,8 @@ topology:
     linux:
       type: linux
       #image: registry.ayuda.la/public/frr-ubuntu:latest if you want Ubuntu
-      image: registry.ayuda.la/public/frr-debian:latest
+      #image: registry.ayuda.la/public/frr-debian:latest
+      image: registry.dc.ayuda.la/lab/frr-ubuntu:latest
       image-pull-policy: IfNotPresent
   
   nodes:

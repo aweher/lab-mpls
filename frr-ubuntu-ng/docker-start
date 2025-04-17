@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+# Cargar funciones comunes de FRR
+source /usr/lib/frr/frrcommon.sh
+
+echo "[INFO] Iniciando snmpd..."
+/usr/sbin/snmpd -f -Lo &
+
+echo "[INFO] Iniciando telegraf..."
+/usr/bin/telegraf --config /etc/telegraf/telegraf.conf &
+
+echo "[INFO] Iniciando FRR..."
+/usr/lib/frr/frrinit.sh start
+
+echo "[INFO] Servicios lanzados. Ejecutando proceso en foreground..."
+# Esperar indefinidamente (puede ser reemplazado por monitoreo de procesos)
+tail -f /dev/null

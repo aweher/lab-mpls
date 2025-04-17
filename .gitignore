@@ -3,3 +3,4 @@ backup/
 .working-configs/
 .*.yml.bak
 .vscode/
+configs/.DS_Store
