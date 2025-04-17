@@ -5,7 +5,7 @@ prefix: __lab-name
 mgmt:
   network: lab_mng
   ipv4-subnet: 203.0.113.0/24
-  ipv6-subnet: 2001:db8:1ab:/64
+  ipv6-subnet: 2001:db8:1ab::/64
   mtu: 4000
 
 topology:
