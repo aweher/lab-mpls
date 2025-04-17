@@ -4,9 +4,9 @@ LABEL maintainer="ariel@weher.net"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
 ENV INFLUXDB_URL=http://influxdb:8086
-ENV INFLUXDB_TOKEN=your_token
-ENV INFLUXDB_ORG=your_org
-ENV INFLUXDB_BUCKET=your_bucket
+ENV INFLUXDB_TOKEN=ayudala
+ENV INFLUXDB_ORG=ayudala
+ENV INFLUXDB_BUCKET=ayudala
 
 # Dependencias generales + snmp + herramientas de red
 RUN apt-get update && apt-get install -y \
