@@ -12,11 +12,11 @@ RUN apt-get update && apt-get install -y \
 
 # Variables por defecto para el setup (pueden ser overrideadas con -e si querés)
 ENV INFLUXDB_USERNAME=ayudala
-ENV INFLUXDB_PASSWORD=ayudala
-ENV INFLUXDB_ORG=ayudala
-ENV INFLUXDB_BUCKET=ayudala
+ENV INFLUXDB_PASSWORD=ayudala123!
+ENV INFLUXDB_ORG=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
+ENV INFLUXDB_BUCKET=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
 ENV INFLUXDB_RETENTION=30d
-ENV INFLUXDB_TOKEN=ayudala
+ENV INFLUXDB_TOKEN=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
 
 COPY start-influx.sh /start-influx.sh
 RUN chmod +x /start-influx.sh
