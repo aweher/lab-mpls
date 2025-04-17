@@ -4,16 +4,14 @@ prefix: __lab-name
 
 mgmt:
   network: lab_mng
-  ipv4-subnet: 198.18.100.0/24
-  ipv6-subnet: 2001:db8::/64
-  mtu: 9000
+  ipv4-subnet: 203.0.113.0/24
+  ipv6-subnet: 2001:db8:1ab:/64
+  mtu: 4000
 
 topology:
   kinds:
     linux:
       type: linux
-      #image: registry.ayuda.la/public/frr-ubuntu:latest if you want Ubuntu
-      #image: registry.ayuda.la/public/frr-debian:latest
       image: registry.dc.ayuda.la/lab/frr-ubuntu:latest
       image-pull-policy: IfNotPresent
   
@@ -140,6 +138,15 @@ topology:
       group: server
       binds:
         - ./.working-configs/ce-cdn4:/etc/frr
+  #---------------------------------------------------------------------------#
+  # Telemetry
+  #---------------------------------------------------------------------------#  
+    influx:
+      kind: linux
+      group: tools
+      image: registry.dc.ayuda.la/lab/influxdb:latest
+      binds:
+        - ./.influxdata:/var/lib/influxdb2
   
   links:
   #---------------------------------------------------------------------------#

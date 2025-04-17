@@ -52,7 +52,7 @@ check_if_docker_images_exists(){
             echo "Image $DIMAGE not found. Building it.."
             echo "Please wait..."
             # Build the images from local Dockerfiles
-            make
+            #make
         fi
     done
 }
