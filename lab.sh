@@ -333,6 +333,14 @@ lab_run(){
     lab_open_graph
 }
 
+clean_images(){
+    echo "Cleaning images..."
+    echo
+    docker kill $(docker ps | grep -i ayuda.la | awk '{print $1}' | xargs)
+    docker image prune -f
+    docker rmi $(docker images | grep -i ayuda.la | awk '{print $3}' | xargs | sort | uniq ) -f
+}
+
 LABFILE=mpls.clab.yml
 LABPFX=mpls
 IPCMD="sudo $(which ip)"
@@ -389,6 +397,9 @@ case "$1" in
         ;;
     status)
         lab_status
+        ;;
+    clean-images)
+        clean_images
         ;;
 esac
 

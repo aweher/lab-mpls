@@ -32,7 +32,7 @@ RUN echo "deb https://deb.frrouting.org/frr $(lsb_release -s -c) frr-stable" > /
 RUN apt-get update && apt-get install -y frr frr-pythontools && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /var/run/frr
+RUN mkdir -p /var/run/frr   
 RUN chown -R frr:frr /etc/frr /var/run/frr
 
 # Copiar configuraciones
