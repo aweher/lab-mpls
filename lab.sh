@@ -64,6 +64,8 @@ lab_destroy(){
         $CLABCMD destroy -t ${LABFILE}
         sudo killall $CLABCMD
         sudo rm -rf .working-configs
+        docker kill $(docker ps | grep -i ${LABPFX} | awk '{print $1}' | xargs)
+        docker container prune -f
     else
         echo "No working configs found. You need to run \"$0 configure\" for the first time"
         exit 1
