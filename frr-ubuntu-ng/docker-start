@@ -12,7 +12,7 @@ fi
 
 envsubst < /etc/telegraf/telegraf.conf.template > /etc/telegraf/telegraf.conf
 
-/usr/sbin/snmpd -f -Lo &
+#/usr/sbin/snmpd -f -Lo &
 /usr/bin/telegraf --config /etc/telegraf/telegraf.conf &
 /usr/lib/frr/frrinit.sh start
 
