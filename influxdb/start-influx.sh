@@ -33,7 +33,7 @@ if [ ! -f /var/lib/influxdb2/setup.done ]; then
 
   mkdir -p /var/lib/influxdb2/shared
   cat <<EOF > /var/lib/influxdb2/shared/creds.env
-INFLUXDB_URL=http://influx:8086
+INFLUXDB_URL=http://influxdb:8086
 INFLUXDB_USERNAME=$INFLUXDB_USERNAME
 INFLUXDB_PASSWORD=$INFLUXDB_PASSWORD
 INFLUXDB_ORG=$INFLUXDB_ORG
@@ -44,6 +44,8 @@ EOF
   touch /var/lib/influxdb2/setup.done
   echo "[INFO] Credenciales generadas:"
   cat /var/lib/influxdb2/shared/creds.env
+  chown -R influxdb:influxdb /var/lib/influxdb2
+  echo "[INFO] InfluxDB configurado correctamente."
 fi
 
 wait -n

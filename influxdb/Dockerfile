@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
   rm -rf /var/lib/apt/lists/*
 
 # Crear usuario SSH
-RUN useradd -ms /bin/bash influxuser && echo 'admin:admin' | chpasswd
+RUN useradd -ms /bin/bash influxuser && echo 'influxadmin:secr3tp4ssw0rd' | chpasswd
 RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd
 RUN sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
     echo "PermitRootLogin no" >> /etc/ssh/sshd_config

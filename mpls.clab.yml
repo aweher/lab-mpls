@@ -17,6 +17,15 @@ topology:
   
   nodes:
   #---------------------------------------------------------------------------#
+  # Telemetry
+  #---------------------------------------------------------------------------#  
+    influxdb:
+      kind: linux
+      group: tools
+      image: registry.dc.ayuda.la/lab/influxdb:latest
+      binds:
+        - ./.influxdata:/var/lib/influxdb2
+  #---------------------------------------------------------------------------#
   # PEs
   #---------------------------------------------------------------------------#
     p1:
@@ -160,15 +169,6 @@ topology:
       binds:
         - ./.working-configs/ce-cdn4:/etc/frr
         - ./.influxdata:/mnt/influx-creds:ro
-  #---------------------------------------------------------------------------#
-  # Telemetry
-  #---------------------------------------------------------------------------#  
-    influxdb:
-      kind: linux
-      group: tools
-      image: registry.dc.ayuda.la/lab/influxdb:latest
-      binds:
-        - ./.influxdata:/var/lib/influxdb2
   
   links:
   #---------------------------------------------------------------------------#
