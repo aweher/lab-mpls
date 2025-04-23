@@ -1,14 +1,14 @@
 #!/bin/bash
-REGISTRY=registry.ayuda.la
+REGISTRY=registry.dc.ayuda.la
 IMAGE=frr-ubuntu
 NOW=$(date +%Y%m%d%H%M%S)
 docker build --no-cache \
-    -t $REGISTRY/public/$IMAGE:latest \
-    -t $REGISTRY/public/$IMAGE:$NOW .
+    -t $REGISTRY/lab/$IMAGE:latest \
+    -t $REGISTRY/lab/$IMAGE:$NOW .
 
 if cat ~/.docker/config.json | jq '.auths | keys[]' | grep -q $REGISTRY; then
-    docker push $REGISTRY/public/$IMAGE:latest
-    docker push $REGISTRY/public/$IMAGE:$NOW
+    docker push $REGISTRY/lab/$IMAGE:latest
+    docker push $REGISTRY/lab/$IMAGE:$NOW
 else
     echo "Not logged in to $REGISTRY."
     echo "Please log in first."

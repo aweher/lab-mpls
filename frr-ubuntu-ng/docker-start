@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 source /usr/lib/frr/frrcommon.sh
 
 echo "[INFO] Iniciando SNMP, Telegraf y FRR"
@@ -10,10 +11,19 @@ else
   echo "[WARN] No se encontró /mnt/influx-creds/creds.env"
 fi
 
-envsubst < /etc/telegraf/telegraf.conf.template > /etc/telegraf/telegraf.conf
+if [ -f /etc/telegraf/telegraf.conf.template ]; then
+  envsubst < /etc/telegraf/telegraf.conf.template > /etc/telegraf/telegraf.conf
+else
+  echo "[WARN] No se encontró /etc/telegraf/telegraf.conf.template. No se generará configuración de telegraf."
+fi
 
-#/usr/sbin/snmpd -f -Lo &
-/usr/bin/telegraf --config /etc/telegraf/telegraf.conf &
+/usr/sbin/snmpd -f -Lo &
+/usr/bin/telegraf --config /etc/telegraf/telegraf.conf || echo "[WARN] Telegraf no pudo iniciarse" &
 /usr/lib/frr/frrinit.sh start
 
-wait -n
+touch /run/docker-start.ready
+
+echo "[INFO] Todos los servicios arrancaron. Contenedor activo."
+
+# Mantener vivo
+tail -f /dev/null

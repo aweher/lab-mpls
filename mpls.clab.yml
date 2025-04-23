@@ -163,7 +163,7 @@ topology:
   #---------------------------------------------------------------------------#
   # Telemetry
   #---------------------------------------------------------------------------#  
-    influx:
+    influxdb:
       kind: linux
       group: tools
       image: registry.dc.ayuda.la/lab/influxdb:latest

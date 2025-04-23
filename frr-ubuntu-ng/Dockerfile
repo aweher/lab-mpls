@@ -37,9 +37,10 @@ RUN chown -R frr:frr /etc/frr /var/run/frr
 
 # Copiar configuraciones
 COPY snmpd.conf /etc/snmp/snmpd.conf
+COPY telegraf.conf.template /etc/telegraf/telegraf.conf.template
 COPY telegraf.conf /etc/telegraf/telegraf.conf
 COPY --chmod=0755 docker-start /usr/lib/frr/docker-start
 
-# Entrypoint
-ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["/usr/lib/frr/docker-start"]
+COPY docker-start /usr/local/bin/docker-start
+RUN chmod +x /usr/local/bin/docker-start
+ENTRYPOINT ["/usr/local/bin/docker-start"]
