@@ -2,14 +2,11 @@
 set -e
 
 # Generar credenciales si no existen
-INFLUXDB_USERNAME=${INFLUXDB_USERNAME:-"admin"}
+INFLUXDB_USERNAME=admin
 INFLUXDB_PASSWORD=ayuda.la
 INFLUXDB_ORG=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
 INFLUXDB_BUCKET=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
 INFLUXDB_TOKEN=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
-
-#echo "[INFO] Iniciando sshd..."
-#/usr/sbin/sshd
 
 echo "[INFO] Iniciando influxd en background..."
 influxd &

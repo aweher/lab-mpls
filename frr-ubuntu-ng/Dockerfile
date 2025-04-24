@@ -3,6 +3,7 @@ LABEL maintainer="ariel@weher.net"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
+ENV TZ=America/Argentina/Buenos_Aires
 
 # Dependencias generales + snmp + herramientas de red
 RUN apt-get update && apt-get install -y \

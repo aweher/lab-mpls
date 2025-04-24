@@ -33,49 +33,41 @@ topology:
       group: spine
       binds:
         - ./.working-configs/p1:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     p2:
       kind: linux
       group: spine
       binds:
         - ./.working-configs/p2:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     pe-cdn1:
       kind: linux
       group: leaf
       binds:
         - ./.working-configs/pe-cdn1:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     pe-cdn2:
       kind: linux
       group: leaf
       binds:
         - ./.working-configs/pe-cdn2:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     pe-tr1:
       kind: linux
       group: border-leaf
       binds:
         - ./.working-configs/pe-tr1:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     pe-tr2:
       kind: linux
       group: border-leaf
       binds:
         - ./.working-configs/pe-tr2:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     pe-cust1:
       kind: linux
       group: leaf
       binds:
         - ./.working-configs/pe-cust1:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     pe-cust2:
       kind: linux
       group: leaf
       binds:
         - ./.working-configs/pe-cust2:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     #-------------------------------------------------------------------------#
     # CEs - End Customers
     #-------------------------------------------------------------------------#
@@ -84,37 +76,31 @@ topology:
       group: server
       binds:
         - ./.working-configs/ce1:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce2:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce2:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce3:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce3:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce4:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce4:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce5:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce5:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce6:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce6:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     #-------------------------------------------------------------------------#
     # CEs - Transits
     #-------------------------------------------------------------------------#
@@ -123,25 +109,21 @@ topology:
       group: server
       binds:
         - ./.working-configs/ce-tr1:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce-tr2:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce-tr2:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce-tr3:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce-tr3:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce-tr4:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce-tr4:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     #-------------------------------------------------------------------------#
     # CEs - CDNs
     #-------------------------------------------------------------------------#
@@ -150,25 +132,21 @@ topology:
       group: server
       binds:
         - ./.working-configs/ce-cdn1:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce-cdn2:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce-cdn2:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce-cdn3:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce-cdn3:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
     ce-cdn4:
       kind: linux
       group: server
       binds:
         - ./.working-configs/ce-cdn4:/etc/frr
-        - ./.influxdata:/mnt/influx-creds:ro
   
   links:
   #---------------------------------------------------------------------------#
@@ -232,7 +210,6 @@ topology:
     - endpoints:
       - pe-tr1:eth4
       - ce-tr2:eth1
-  
   # PE-TR2 a CE-TR3
     - endpoints:
       - pe-tr2:eth3

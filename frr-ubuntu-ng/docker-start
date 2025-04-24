@@ -5,17 +5,9 @@ source /usr/lib/frr/frrcommon.sh
 
 echo "[INFO] Iniciando SNMP, Telegraf y FRR"
 
-if [ -f /mnt/influx-creds/creds.env ]; then
-  export $(cat /mnt/influx-creds/creds.env | xargs)
-else
-  echo "[WARN] No se encontró /mnt/influx-creds/creds.env"
-fi
-
 /usr/sbin/snmpd -f -Lo &
 /usr/bin/telegraf --config /etc/telegraf/telegraf.conf || echo "[WARN] Telegraf no pudo iniciarse" &
 /usr/lib/frr/frrinit.sh start
-
-touch /run/docker-start.ready
 
 echo "[INFO] Todos los servicios arrancaron. Contenedor activo."
 
