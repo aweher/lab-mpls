@@ -11,12 +11,6 @@ else
   echo "[WARN] No se encontró /mnt/influx-creds/creds.env"
 fi
 
-if [ -f /etc/telegraf/telegraf.conf.template ]; then
-  envsubst < /etc/telegraf/telegraf.conf.template > /etc/telegraf/telegraf.conf
-else
-  echo "[WARN] No se encontró /etc/telegraf/telegraf.conf.template. No se generará configuración de telegraf."
-fi
-
 /usr/sbin/snmpd -f -Lo &
 /usr/bin/telegraf --config /etc/telegraf/telegraf.conf || echo "[WARN] Telegraf no pudo iniciarse" &
 /usr/lib/frr/frrinit.sh start

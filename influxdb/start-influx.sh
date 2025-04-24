@@ -3,13 +3,13 @@ set -e
 
 # Generar credenciales si no existen
 INFLUXDB_USERNAME=${INFLUXDB_USERNAME:-"admin"}
-INFLUXDB_PASSWORD=$(openssl rand -hex 12)
-INFLUXDB_ORG=$(openssl rand -hex 16)
-INFLUXDB_BUCKET=$INFLUXDB_ORG
-INFLUXDB_TOKEN=$(openssl rand -hex 32)
+INFLUXDB_PASSWORD=ayuda.la
+INFLUXDB_ORG=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
+INFLUXDB_BUCKET=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
+INFLUXDB_TOKEN=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
 
-echo "[INFO] Iniciando sshd..."
-/usr/sbin/sshd
+#echo "[INFO] Iniciando sshd..."
+#/usr/sbin/sshd
 
 echo "[INFO] Iniciando influxd en background..."
 influxd &
@@ -31,20 +31,7 @@ if [ ! -f /var/lib/influxdb2/setup.done ]; then
     --retention 30d \
     --force
 
-  mkdir -p /var/lib/influxdb2/shared
-  cat <<EOF > /var/lib/influxdb2/shared/creds.env
-INFLUXDB_URL=http://influxdb:8086
-INFLUXDB_USERNAME=$INFLUXDB_USERNAME
-INFLUXDB_PASSWORD=$INFLUXDB_PASSWORD
-INFLUXDB_ORG=$INFLUXDB_ORG
-INFLUXDB_BUCKET=$INFLUXDB_BUCKET
-INFLUXDB_TOKEN=$INFLUXDB_TOKEN
-EOF
-
   touch /var/lib/influxdb2/setup.done
-  echo "[INFO] Credenciales generadas:"
-  cat /var/lib/influxdb2/shared/creds.env
-  chown -R influxdb:influxdb /var/lib/influxdb2
   echo "[INFO] InfluxDB configurado correctamente."
 fi
 

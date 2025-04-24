@@ -3,10 +3,6 @@ LABEL maintainer="ariel@weher.net"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
-ENV INFLUXDB_URL=http://influxdb:8086
-ENV INFLUXDB_TOKEN=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
-ENV INFLUXDB_ORG=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
-ENV INFLUXDB_BUCKET=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
 
 # Dependencias generales + snmp + herramientas de red
 RUN apt-get update && apt-get install -y \
@@ -37,7 +33,6 @@ RUN chown -R frr:frr /etc/frr /var/run/frr
 
 # Copiar configuraciones
 COPY snmpd.conf /etc/snmp/snmpd.conf
-COPY telegraf.conf.template /etc/telegraf/telegraf.conf.template
 COPY telegraf.conf /etc/telegraf/telegraf.conf
 COPY --chmod=0755 docker-start /usr/lib/frr/docker-start
 
