@@ -4,9 +4,9 @@ set -e
 # Generar credenciales si no existen
 INFLUXDB_USERNAME=admin
 INFLUXDB_PASSWORD=ayuda.la
-INFLUXDB_ORG=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
-INFLUXDB_BUCKET=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
-INFLUXDB_TOKEN=9TwbWJmvKqnLtsFkUJxtpvuAUeNpnUrX
+INFLUXDB_ORG=localnetwork
+INFLUXDB_BUCKET=localnetwork
+INFLUXDB_TOKEN=localnetwork
 
 echo "[INFO] Iniciando influxd en background..."
 influxd &
