@@ -11,11 +11,6 @@ INFLUXDB_TOKEN=localnetwork
 echo "[INFO] Iniciando influxd en background..."
 influxd &
 
-echo "[INFO] Esperando que InfluxDB esté disponible..."
-until curl -s localhost:8086/health | grep -q '"status":"pass"'; do
-  sleep 1
-done
-
 if [ ! -f /var/lib/influxdb2/setup.done ]; then
   echo "[INFO] Realizando setup inicial..."
 
@@ -31,5 +26,10 @@ if [ ! -f /var/lib/influxdb2/setup.done ]; then
   touch /var/lib/influxdb2/setup.done
   echo "[INFO] InfluxDB configurado correctamente."
 fi
+
+echo "[INFO] Esperando que InfluxDB esté disponible..."
+until curl -s localhost:8086/health | grep -q '"status":"pass"'; do
+  sleep 1
+done
 
 wait -n
