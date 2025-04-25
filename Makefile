@@ -1,12 +1,12 @@
-.PHONY: all frr-debian frr-ubuntu-ng influxdb
+.PHONY: all frr-debian frr-ubuntu influxdb
 
-all: frr-debian frr-ubuntu-ng influxdb
+all: frr-debian frr-ubuntu influxdb
 
 frr-debian:
 	$(MAKE) -C frr-debian
 
-frr-ubuntu-ng:
-	$(MAKE) -C frr-ubuntu-ng
+frr-ubuntu:
+	$(MAKE) -C frr-ubuntu
 
 influxdb:
 	$(MAKE) -C influxdb

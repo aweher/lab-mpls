@@ -1,3 +1,15 @@
 #!/bin/bash
+set -e
+
 source /usr/lib/frr/frrcommon.sh
-/usr/lib/frr/watchfrr $(daemon_list)
+
+echo "[INFO] Iniciando SNMP, Telegraf y FRR"
+
+/usr/sbin/snmpd -f -Lo &
+/usr/bin/telegraf --config /etc/telegraf/telegraf.conf || echo "[WARN] Telegraf no pudo iniciarse" &
+/usr/lib/frr/frrinit.sh start
+
+echo "[INFO] Todos los servicios arrancaron. Contenedor activo."
+
+# Mantener vivo
+tail -f /dev/null
